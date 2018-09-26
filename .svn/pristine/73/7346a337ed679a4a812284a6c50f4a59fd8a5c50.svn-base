@@ -1,0 +1,10 @@
+<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+<?php
+//conexao com o banco de dados
+$conn = mysql_connect("localhost", "root", "");
+
+//verifica conexao
+if (!$conn) {
+	die("Connection failed: ".mysqli_connect_error());
+}
+?>

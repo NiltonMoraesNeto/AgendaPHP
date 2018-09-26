@@ -1,0 +1,35 @@
+<?php 
+    session_start();
+    if(isset($_SESSION['usuario'])){
+        header("Location: home.html");
+    }
+?>
+<!DOCTYPE html>
+<html lang="pt-br" >
+	<head>
+		<meta charset="UTF-8">
+		<title>Controle de agenda2 - Fator Consultoria</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />		
+		<link rel="stylesheet" type="text/css" href="css/login.css" />
+	</head>
+	<body>
+		<div class="login-center">
+			<a href="#" ><img src="imagens/fatorl.png" width="350px" /></a>
+			<section class="title">agenda2</section>
+			
+			<form class="login" method="post" action="login.php">
+				<div>
+					<label for="usuario">Usuário:</label>
+					<input class="form-control input-block" type="text" name="LOGIN" id="LOGIN" required>
+				</div>
+				<div>
+					<label for="senha">Senha:</label><a href="#" style="float: right">Esqueceu sua senha?</a>
+					<input class="form-control input-block" type="password" name="SENHA" id="SENHA" required>
+				</div>
+				<input class="btn btn-green btn-block" type="submit" name="login" value="Entrar" id="login" id"click">
+			</form>
+		</div>
+	</body>
+</html>

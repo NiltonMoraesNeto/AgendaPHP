@@ -1,0 +1,21 @@
+<?php
+	
+	include_once('conexion.php');
+
+	$LOGIN = $_POST['LOGIN'];
+	$SENHA = $_POST['SENHA'];
+
+	$sql = "SELECT COUNT(*) FROM usuarios where(LOGIN='$LOGIN' and SENHA='$SENHA' and ATIVO=1)";
+	$res = mysql_query($sql);
+
+	$row = mysql_fetch_array($res);
+
+	if($row[0] > 0 ){
+		session_start();
+		$_SESSION['LOGIN'] = $LOGIN;
+		header( 'Location: home.htm' );
+	}
+	else{
+		header( 'Location: login.htm' );		
+	}
+?>

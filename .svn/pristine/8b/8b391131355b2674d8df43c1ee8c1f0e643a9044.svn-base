@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<?php 
+    session_start();
+    if(isset($_SESSION['usuario'])){
+        header("Location: home.php");
+    }
+?>
+<html lang="pt-br" >
+	<head>        
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Controle de agenda2 - Fator Consultoria</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="js/login.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />		
+		<link rel="stylesheet" type="text/css" href="css/login.css" />
+	</head>
+	<body>
+		<div class="login-center">
+			<a href="#" ><img src="imagens/fatorl.png" width="350px" /></a>
+			<section class="title">agenda2</section>
+			
+			<form method="post" class="login" action="login.php">
+				<div>
+					<label for="usuario">Usuário:</label>
+					<input class="form-control input-block" type="text" name="login" id="login" required>
+				</div>
+				<div>
+					<label for="senha">Senha:</label><a href="#" style="float: right">Esqueceu sua senha?</a>
+					<input class="form-control input-block" type="password" name="senha" id="senha" required>
+				</div>
+				<input class="btn btn-blue btn-block" type="button" value="Entrar" name="login" onclick="getDados();">
+			</form>
+            <div id="Resultado"></div> <!-- mostra mensagem de erro caso login falhe -->
+		</div>        
+	</body>
+</html>

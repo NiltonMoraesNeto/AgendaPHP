@@ -1,0 +1,32 @@
+<?php
+	
+	include_once('conexao.php');
+
+	$login = $_POST['login'];
+	$senha = $_POST['senha'];
+
+    echo $login;
+    echo $senha;
+
+	$sql = "SELECT COUNT(*) FROM usuarios where(LOGIN='$login' and SENHA='$senha' and ATIVO=1)";
+	$res = mysql_query($sql);
+
+	$row = mysql_fetch_array($res);
+
+	if($row[0] > 0 )
+    {
+		session_start();
+		$_SESSION['LOGIN'] = $login;
+		header( 'Location: home.php' );
+	}
+	else
+    {
+		$msgerro = "<div class=\"alert alert-danger alert-dismissible fade in\" role=\"alert\" style=\"margin-top: 15px\">
+				        <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">
+					       <span aria-hidden=\"true\">&times;</span>
+				        </button>
+				        Usuário ou senha incorreto!
+                    </div>";
+        echo $msgerro;
+	}
+?>

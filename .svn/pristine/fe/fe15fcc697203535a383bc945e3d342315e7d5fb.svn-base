@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=uft-8">
+		<title>Fator agenda2</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+	<body>
+		<header class="header">
+			<div style="float:left; margin-left: 10%;">
+				<a href="home.htm"> <img src="imagens/fatorl.png" height="40px" /> </a>
+			</div>
+			<div style="float:right; margin-top: 8px; margin-right: 10%; width: 300px" >
+				<div class="input-group">
+					<input type="text" class="input-style form-control"placeholder="Pesquisar...">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+				</div>
+			</div>
+		</header>
+		<nav class="navtop">
+			<div>
+				<ul class="none">
+					<li>
+						<a href="cadastrarContato.php">Cadastrar Contato</a>
+					</li>
+					<li>
+						<a href="#">Cadastros</a>
+					</li>
+					<li>
+						<a href="#">Editar</a>
+					</li>
+					<li>
+						<a href="#">Pesquisar Contatos</a>
+					</li>
+					<li>
+						<a href="#">Pesquisar Conta</a>
+					</li>
+					<li>
+						<a href="#">Compromissos</a>
+					</li>
+					<li>
+						<a href="#">Recibo</a>
+					</li>
+					<li>
+						<a href="sair.php">Sair</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="content">
+            oi
+        </div>
+	</body>
+</html>

@@ -1,0 +1,174 @@
+body {
+	background: #e9f2f4;
+	font-family: 'Open Sans', sans-serif;
+	margin: 0 auto;
+}
+
+/* HEADER(LOGO&PESQUISAR) */
+header.header{
+	background: #FFFFFF;
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+    position: relative;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    box-shadow: 0px 0px 15px #2687d3;
+}
+
+.btn-out{
+    background: #FFF;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.btn-out:hover{
+    background: #FFF;
+    color: #2687d3;
+    transition: color 0.3s;
+}
+/* FIM HEADER */
+
+/* -------------------- */
+
+/* NAVBAR MENU */
+nav.navtop{
+	background: #4dafe2;
+	color: #FFF;
+	width: 100%;
+	height: 34px;
+	line-height: 32px;
+    border-bottom: 3px solid #2687d3;
+}
+
+nav.navtop div{
+	color: #FFF;
+	margin-left: 15%;
+}
+
+ul.none{
+	list-style-type: none;	
+    margin: 0;
+    padding: 0;    
+}
+
+ul.none li{
+	float: left;
+	display: inline;
+}
+
+ul.none li a{
+	color: #FFF;
+	text-decoration: none;
+	padding: 6px 15px;
+	margin: 0;
+	transition: background-color 0.3s;
+}
+
+ul.none li a:hover:not(.active) {
+    background-color: #399bda;    
+    transition: background-color 0.3s;
+}
+
+.active {
+    background-color: #2687d3;
+}
+
+/* FIM NAVBAR MENU */
+
+/* -------------------- */
+
+/* CONTEUDO */
+
+div.content{
+	padding: 10px;
+	background: #FFF;
+	width: 80%;	
+	margin: 1% auto;
+	box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+}
+
+div.content h3{
+	margin: 0px;
+	font-weight: 300;
+}
+
+div.content h4{	
+	font-weight: 400;
+}
+
+div.content hr{
+	margin: 8px 0 8px 0;
+}
+
+div.content input{
+    border-radius: 0px;
+}
+
+div.content select{
+    border-radius: 0px;
+}
+
+div.content textarea{
+    border-radius: 0px;
+}
+
+div.content div.forms{
+    border: 1px solid #e2e2e2;
+    padding: 10px;      
+}
+
+div.content div.forms div.padding-15{    
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+div.content .checkbox{    
+    position: relative;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+div.content table.search tr td{
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+table.colorgb{
+	font-size: 9pt;
+}
+
+table.colorgb thead{
+	background: #eee;
+}
+/* FIM CONTEUDO */
+
+/* ALERT BOOTSTRAP RETURN PHP */
+
+.alert-float-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 30%;
+    z-index: 9999;
+    width: 40%;
+}
+
+/* FIM ALERT BOOTSTRAP RETURN PHP */
+
+/* ESPECIAL FORMULARIO CADASTRAR CONTATO */
+
+label.borderless{
+	margin-bottom: 0px;
+}
+
+/*div.content table.table-striped>tbody>tr:nth-of-type(odd){
+	background-color: #F5F5F5;
+}*/
+
+input[type=checkbox].borderless, input[type=radio].borderless{
+	margin: 0px;
+}
+
+/* FIM ESPECIAL FORMULARIO CADASTRAR CONTATO */

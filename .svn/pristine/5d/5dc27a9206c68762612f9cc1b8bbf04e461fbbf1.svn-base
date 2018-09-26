@@ -1,0 +1,45 @@
+<?php  
+	
+    session_start();
+    $LOGIN = $_SESSION['LOGIN'];
+    if(!isset($LOGIN)){
+        header("Location: login.htm");
+    }
+?>
+<!DOCTYPE html>
+<html lang="pt-br" >
+	<head>
+
+		<meta charset="UTF-8">
+		<title>Fator agenda2</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />		
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+	<body>
+		<header class="header">
+			<div style="float:left; margin-left: 10%;"><img href="home.htm" src="imagens/fatorl.png" height="40px" /></div>
+			<div style="float:right; margin-right: 10%;" >PESQUISA</div>
+			<li class="dropdown open">
+                <a href="#" class="dropdown-toggle hidden-xs hidden-sm" data-toggle="dropdown">
+                    Bem Vindo<?php echo ": ".$_SESSION['LOGIN'] ?>
+                </a>                
+            </li>  
+		</header>
+		<nav class="navtop">
+			<div>
+			<ul class="none">
+				<li><a class="active" href="cadastrarContato.php">Cadastrar Contato</a></li>
+				<li><a href="#">Cadastros</a></li>
+				<li><a href="#">Editar</a></li>
+				<li><a href="#">Pesquisar Contatos</a></li>
+				<li><a href="#">Pesquisar Conta</a></li>
+				<li><a href="#">Compromissos</a></li>
+				<li><a href="#">Recibo</a></li>
+			</ul>
+			</div>
+		</nav>
+		<div class="content">
+			oi
+		</div>
+	</body>
+</html>

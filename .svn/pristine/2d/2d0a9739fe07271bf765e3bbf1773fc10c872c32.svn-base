@@ -1,0 +1,6 @@
+<?php
+/* Conexão MySql
+	*/
+$conn = mysql_connect('localhost','root','') or die("Error, Conexão");
+$bd = mysql_select_db('agenda2') or die("Error, Base de datos");
+?>

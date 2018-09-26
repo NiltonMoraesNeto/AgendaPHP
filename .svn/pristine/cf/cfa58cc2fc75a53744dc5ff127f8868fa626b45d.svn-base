@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<?php
+include_once 'conexao.php';
+?>
+<?php
+session_start();
+$LOGIN = $_SESSION['LOGIN'];
+if (!isset($LOGIN)) {
+	header("Location: index.php");
+}
+?>
+<html lang="pt-br" >
+	<head>
+        <title>Fator agenda2</title>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" />		
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script src="//code.jquery.com/jquery-2.2.2.min.js"></script>
+		<script type="text/javascript">
+			function formatar_mascara(src, mascara) {
+				var campo = src.value.length;
+				var saida = mascara.substring(0, 1);
+				var texto = mascara.substring(campo);
+				if (texto.substring(0, 1) != saida) {
+					src.value += texto.substring(0, 1);
+				}
+			}
+		</script>
+		<script language="JavaScript">
+			function mascara2(t, mask) {
+				var i = t.value.length;
+				var saida = mask.substring(1, 0);
+				var texto = mask.substring(i)
+				if (texto.substring(0, 1) != saida) {
+					t.value += texto.substring(0, 1);
+				}
+			}
+		</script>		
+		<script type="text/javascript" >
+			$(document).ready(function() {
+
+				function limpa_formulário_cep() {
+					// Limpa valores do formulário de cep.
+					$("#endereco").val("");
+					$("#bairro").val("");
+					$("#cidade").val("");
+					$("#estado").val("");					
+				}
+
+				//Quando o campo cep perde o foco.
+				$("#cep").blur(function() {
+
+					//Nova variável "cep" somente com dígitos.
+					var cep = $(this).val().replace(/\D/g, '');
+
+					//Verifica se campo cep possui valor informado.
+					if (cep != "") {
+
+						//Expressão regular para validar o CEP.
+						var validacep = /^[0-9]{8}$/;
+
+						//Valida o formato do CEP.
+						if (validacep.test(cep)) {
+
+							//Preenche os campos com "..." enquanto consulta webservice.
+							$("#endereco").val("...")
+							$("#bairro").val("...")
+							$("#cidade").val("...")
+							$("#estado").val("...")
+							$("#ibge").val("...")
+
+							//Consulta o webservice viacep.com.br/
+							$.getJSON("//viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+
+								if (!("erro" in dados)) {
+									//Atualiza os campos com os valores da consulta.
+									$("#endereco").val(dados.logradouro);
+									$("#bairro").val(dados.bairro);
+									$("#cidade").val(dados.localidade);
+									$("#estado").val(dados.uf);
+								}//end if.
+								else {
+									//CEP pesquisado não foi encontrado.
+									limpa_formulário_cep();
+									alert("CEP não encontrado.");
+								}
+							});
+						}//end if.
+						else {
+							//cep é inválido.
+							limpa_formulário_cep();
+							alert("Formato de CEP inválido.");
+						}
+					}//end if.
+					else {
+						//cep sem valor, limpa formulário.
+						limpa_formulário_cep();
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<header class="header">
+			<div style="float:left; margin-left: 10%;">
+				<a href="home.php"> <img src="imagens/fatorl.png" height="48px" /> </a>
+			</div>
+			<div style="float:right; margin-top: 8px; margin-right: 10%; width: 300px" >
+				<div class="input-group">
+					<input type="text" class="input-style form-control"placeholder="Pesquisar...">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+				</div>
+			</div>
+		</header>
+		<nav class="navtop">
+			<div>
+				<ul class="none">
+					<li>
+						<a class="active" href="cadastrarContato.php">Cadastrar Contato</a>
+					</li>
+					<li>
+						<a href="cadastros.php">Cadastros</a>
+					</li>
+					<li>
+						<a href="editar.php">Editar</a>
+					</li>
+					<li>
+						<a href="pesquisarContato.php">Pesquisar Contatos</a>
+					</li>
+					<li>
+						<a href="pesquisarConta.php">Pesquisar Conta</a>
+					</li>
+					<li>
+						<a href="compromissos.php">Compromissos</a>
+					</li>
+					<li>
+						<a href="recibo.php">Recibo</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="content">
+			<h3>Cadastrar Contato</h3>
+			<hr>
+
+			<form action="#" class="form-horizontal" id="form1" method="post" ENCTYPE="multipart/form-data">
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="grupo">Grupo: </label>
+					<div class="col-md-4">
+						<select class="form-control"name="grupo" id="grupo">
+							<?php
+							mysql_select_db($database_cnnagenda2, $cnnagenda2);
+							$sql = "SELECT * FROM GRUPO ORDER BY NOME_GRUPO ASC";
+							$qr = mysql_query($sql) or die(mysql_error());
+
+							while ($row = mysql_fetch_assoc($qr)) {
+								echo "<option value='" . $row['ID_GRUPO'] . "'>" . $row['NOME_GRUPO'] . "</option>";
+							}
+							?>
+						</select>
+					</div>
+				</div>
+                
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tipo_pessoa">Tipo Pessoa: </label>
+					<div class="col-md-4">
+						<select class="input-style form-control"name="tipo_pessoa" id="tipo_pessoa">
+							<?php
+							mysql_select_db($database_cnnagenda2, $cnnagenda2);
+							$sql = "SELECT * FROM TIPO_PESSOA ORDER BY TIPO_PESSOA ASC";
+							$qr = mysql_query($sql) or die(mysql_error());
+
+							while ($row = mysql_fetch_assoc($qr)) {
+								echo "<option value='" . $row['ID_TIPO_PESSOA'] . "'>" . $row['TIPO_PESSOA'] . "</option>";
+							}
+							?>
+						</select>
+					</div>
+				</div>
+                
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="nome_contato">Nome Contato/Empresa: </label>
+					<div class="col-md-4">
+						<input class="form-control" name="nome_contato" id="nome_contato" required autofocus type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="nome_fantasia">Nome Fantasia:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control" name="nome_fantasia" id="nome_fantasia" required autofocus type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="contato">Contato:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control" name="contato" id="contato" required autofocus type="text">
+					</div>
+				</div>
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="cpf_cnpj">
+					<label for="cpf">CPF:&nbsp;<input type="radio" name="tipo" value="cpf" id="cpf"></label>					
+					<label for="cnpj">CNPJ:&nbsp;<input type="radio" name="tipo" value="cnpj" id="cnpj"></label>					
+					</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"type="text" name="cpf" id="cpf_cnpj" maxlength="18"/>
+					</div>					
+				</div>				
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="ie">Inscrição Estadual:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="ie" id="ie" required autofocus type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="dt_nascimento">Data Nascimento:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="dt_nascimento" id="dt_nascimento" required autofocus type="text" maxlength="10" onKeyPress="formatar_mascara(this,'xx/xx/xxxx')">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tel_fixo">Telefone Fixo:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tel_fixo" id="tel_fixo" required type="text" onkeypress="mascara2(this, '## ####-####')" maxlength="12">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tel_celular">Telefone Celular:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tel_celular" id="tel_celular" required type="text" onkeypress="mascara2(this, '## ####-####')" maxlength="12">
+					</div>
+				</div>
+                
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tel_fax">Telefone Fax:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tel_fax" id="tel_fax" required type="text" onkeypress="mascara2(this, '####-####')" maxlength="9">
+					</div>
+				</div>
+                
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="email">Email:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="email" id="email" required autofocus type="text">
+					</div>
+				</div>
+                
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="cep">CEP:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="cep" id="cep" required type="text" maxlength="9">
+					</div>
+				</div>
+				
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="endereco">Rua:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="endereco" id="endereco" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="numero">Número:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="numero" id="numero" required type="text">
+					</div>
+				</div>
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="complemento">Complemento:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="complemento" id="complemento" required type="text">
+					</div>
+				</div>
+				
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="bairro">Bairro:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="bairro" id="bairro" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="cidade">Cidade:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="cidade" id="cidade" required type="text">
+					</div>
+				</div>
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="estado">Estado:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="estado" id="estado" required type="text">
+					</div>
+				</div>
+				
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="nome_banco">Banco:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="nome_banco" id="nome_banco" required type="text">
+					</div>
+				</div>
+                
+                <div class="form-group">
+                    <label class="control-label col-md-3"></label>
+                    <div class="col-md-5">
+                        <button type="submit" class="btn btn-success">Salvar Contato</button>
+				        <button type="reset" class="btn btn-warning">Limpar Campos</button>
+				        <a href="home.htm"><button type="button" class="btn btn-danger">Cancelar</button></a>
+                    </div>
+                </div>
+                
+				
+
+			</form>
+
+		</div>
+	</body>
+</html>

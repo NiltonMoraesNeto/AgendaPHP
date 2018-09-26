@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<?php
+include_once 'conexion.php';
+?>
+<?php
+session_start();
+$LOGIN = $_SESSION['LOGIN'];
+if (!isset($LOGIN)) {
+	header("Location: login.htm");
+}
+?>
+<html lang="pt-br" >
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Fator agenda2</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script type="text/javascript">
+			function formatar_mascara(src, mascara) {
+				var campo = src.value.length;
+				var saida = mascara.substring(0, 1);
+				var texto = mascara.substring(campo);
+				if (texto.substring(0, 1) != saida) {
+					src.value += texto.substring(0, 1);
+				}
+			}
+		</script>
+		<script language="JavaScript">
+			function mascara2(t, mask) {
+				var i = t.value.length;
+				var saida = mask.substring(1, 0);
+				var texto = mask.substring(i)
+				if (texto.substring(0, 1) != saida) {
+					t.value += texto.substring(0, 1);
+				}
+			}
+		</script>
+		<script src="//code.jquery.com/jquery-2.2.2.min.js"></script>
+		<script type="text/javascript" >
+			$(document).ready(function() {
+
+				function limpa_formulário_cep() {
+					// Limpa valores do formulário de cep.
+					$("#endereco").val("");
+					$("#bairro").val("");
+					$("#cidade").val("");
+					$("#estado").val("");
+					$("#ibge").val("");
+				}
+
+				//Quando o campo cep perde o foco.
+				$("#cep").blur(function() {
+
+					//Nova variável "cep" somente com dígitos.
+					var cep = $(this).val().replace(/\D/g, '');
+
+					//Verifica se campo cep possui valor informado.
+					if (cep != "") {
+
+						//Expressão regular para validar o CEP.
+						var validacep = /^[0-9]{8}$/;
+
+						//Valida o formato do CEP.
+						if (validacep.test(cep)) {
+
+							//Preenche os campos com "..." enquanto consulta webservice.
+							$("#endereco").val("...")
+							$("#bairro").val("...")
+							$("#cidade").val("...")
+							$("#estado").val("...")
+							$("#ibge").val("...")
+
+							//Consulta o webservice viacep.com.br/
+							$.getJSON("//viacep.com.br/ws/" + cep + "/json/?callback=?", function(dados) {
+
+								if (!("erro" in dados)) {
+									//Atualiza os campos com os valores da consulta.
+									$("#endereco").val(dados.logradouro);
+									$("#bairro").val(dados.bairro);
+									$("#cidade").val(dados.localidade);
+									$("#estado").val(dados.uf);
+									$("#ibge").val(dados.ibge);
+								}//end if.
+								else {
+									//CEP pesquisado não foi encontrado.
+									limpa_formulário_cep();
+									alert("CEP não encontrado.");
+								}
+							});
+						}//end if.
+						else {
+							//cep é inválido.
+							limpa_formulário_cep();
+							alert("Formato de CEP inválido.");
+						}
+					}//end if.
+					else {
+						//cep sem valor, limpa formulário.
+						limpa_formulário_cep();
+					}
+				});
+			});
+
+		</script>
+	</head>
+	<body>
+		<header class="header">
+			<div style="float:left; margin-left: 10%;">
+				<a href="home.htm"> <img src="imagens/fatorl.png" height="40px" /> </a>
+			</div>
+			<div style="float:right; margin-top: 8px; margin-right: 10%; width: 300px" >
+				<div class="input-group">
+					<input type="text" class="form-control input-sm" placeholder="Pesquisar...">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+				</div>
+			</div>
+		</header>
+		<nav class="navtop">
+			<div>
+				<ul class="none">
+					<li>
+						<a class="active" href="cadastrarContato.php">Cadastrar Contato</a>
+					</li>
+					<li>
+						<a href="#">Cadastros</a>
+					</li>
+					<li>
+						<a href="#">Editar</a>
+					</li>
+					<li>
+						<a href="#">Pesquisar Contatos</a>
+					</li>
+					<li>
+						<a href="#">Pesquisar Conta</a>
+					</li>
+					<li>
+						<a href="#">Compromissos</a>
+					</li>
+					<li>
+						<a href="#">Recibo</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<div class="content">
+			<h3>Cadastrar Contato</h3>
+			<hr>
+
+			<form action="#" name="form1" id="form1" method="post" ENCTYPE="multipart/form-data">
+				<div class="form-group">
+					<table class="forms">
+						<tr>
+							<td><label for="grupo">Grupo:</label>
+							<select class="form-control input-sm" name="grupo" id="grupo">
+								<?php
+								mysql_select_db($database_cnnagenda2, $cnnagenda2);
+								$sql = "SELECT * FROM GRUPO ORDER BY NOME_GRUPO ASC";
+								$qr = mysql_query($sql) or die(mysql_error());
+
+								while ($row = mysql_fetch_assoc($qr)) {
+									echo "<option value='" . $row['ID_GRUPO'] . "'>" . $row['NOME_GRUPO'] . "</option>";
+								}
+								?>
+							</select></td>
+							<td><label for="tipo_pessoa">Tipo Pessoa:</label>
+							<select class="form-control input-sm" name="tipo_pessoa" id="tipo_pessoa">
+								<?php
+								mysql_select_db($database_cnnagenda2, $cnnagenda2);
+								$sql = "SELECT * FROM TIPO_PESSOA ORDER BY TIPO_PESSOA ASC";
+								$qr = mysql_query($sql) or die(mysql_error());
+
+								while ($row = mysql_fetch_assoc($qr)) {
+									echo "<option value='" . $row['ID_TIPO_PESSOA'] . "'>" . $row['TIPO_PESSOA'] . "</option>";
+								}
+								?>
+							</select></td>
+							<td><label for="nome_contato">Nome Contato / Empresa:</label>
+							<input class="form-control input-sm" name="nome_contato" id="nome_contato" required autofocus type="text">
+							</td>
+							<td><label for="nome_fantasia" >Nome Fantasia:</label>
+							<input class="form-control input-sm" name="nome_fantasia" id="nome_fantasia" required autofocus type="text">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="contato">Contato:</label>
+							<input class="form-control input-sm" name="contato" id="contato" required autofocus type="text">
+							</td>
+							<td colspan="1">
+							<input type="radio" name="tipo" value="cpf" id="cpf">
+							<label for="cpf">&nbsp;CPF&nbsp; | &nbsp;</label>
+							<input type="radio" name="tipo" value="cnpj" id="cnpj">
+							<label for="cnpj">&nbsp;CNPJ</label>
+							<input class="form-control input-sm" type="text" name="cpf" id="cpf_cnpj" maxlength="18"/>
+							</td>
+							<td><label for="ie">Inscrição Estadual:</label>
+							<input class="form-control input-sm" name="ie" id="ie" required autofocus type="text">
+							</td>
+							<td><label for="dt_nascimento">Data Nascimento:</label>
+							<input class="form-control input-sm" name="dt_nascimento" id="dt_nascimento" required autofocus type="text" maxlength="10" onKeyPress="formatar_mascara(this,'xx/xx/xxxx')">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="tel_fixo">Telefone Fixo:</label>
+					<input class="form-control input-sm" name="tel_fixo" id="tel_fixo" required type="text" onkeypress="mascara2(this, '## ####-####')" maxlength="12"></td>
+							<td><label for="tel_celular">Telefone Celular:</label>
+					<input class="form-control input-sm" name="tel_celular" id="tel_celular" required type="text" onkeypress="mascara2(this, '## ####-####')" maxlength="12"></td>
+							<td><label for="tel_fax" >Telefone Fax:</label>
+					<input class="form-control input-sm" name="tel_fax" id="tel_fax" required type="text" onkeypress="mascara2(this, '####-####')" maxlength="9"></td>
+							<td>
+								<label for="email">Email:</label>
+					<input class="form-control input-sm" name="email" id="email" required autofocus type="text">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="cep">CEP:</label>
+					<input class="form-control input-sm" name="cep" id="cep" required type="text" maxlength="9"></td>
+							<td><label for="endereco">Rua:</label>
+					<input class="form-control input-sm" name="endereco" id="endereco" required type="text"></td>
+							<td><label for="numero">Número:</label>
+					<input class="form-control input-sm" name="numero" id="numero" required type="text"></td>
+							<td><label for="complemento">Complemento:</label>
+					<input class="form-control input-sm" name="complemento" id="complemento" required type="text"></td>
+						</tr>
+						<tr>
+							<td><label for="bairro">Bairro:</label>
+					<input class="form-control input-sm" name="bairro" id="bairro" required type="text"></td>
+							<td><label for="cidade">Cidade:</label>
+					<input class="form-control input-sm" name="cidade" id="cidade" required type="text"></td>
+							<td><label for="estado">Estado:</label>
+					<input class="form-control input-sm" name="estado" id="estado" required type="text"></td>
+							<td><label for="nome_banco">Banco:</label>
+					<input class="form-control input-sm" name="nome_banco" id="nome_banco" required type="text"></td>
+						</tr>
+					</table>			
+
+					<br>
+					<button type="submit" class="btn btn-success">
+						Salvar Contato
+					</button>
+					<button type="reset" class="btn btn-warning">
+						Limpar Campos
+					</button>
+					<a href="home.htm">
+					<button type="button" class="btn btn-danger">
+						Cancelar
+					</button></a>
+				</div>
+			</form>
+
+		</div>
+	</body>
+</html>

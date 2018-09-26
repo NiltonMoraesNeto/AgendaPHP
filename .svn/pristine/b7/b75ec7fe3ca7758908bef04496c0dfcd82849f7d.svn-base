@@ -1,0 +1,216 @@
+<?php include("header.php");?>
+
+			<h3>Cadastrar Contato</h3>
+			<hr>
+
+			<form action="#" class="form-horizontal" id="form1" method="post" ENCTYPE="multipart/form-data">
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="grupo">Grupo: </label>
+					<div class="col-md-4">
+						<select class="form-control"name="grupo" id="grupo">
+							<?php
+							mysql_select_db($database_cnnagenda2, $cnnagenda2);
+							$sql = "SELECT * FROM GRUPO ORDER BY NOME_GRUPO ASC";
+							$qr = mysql_query($sql) or die(mysql_error());
+
+							while ($row = mysql_fetch_assoc($qr)) {
+								echo "<option value='" . $row['ID_GRUPO'] . "'>" . $row['NOME_GRUPO'] . "</option>";
+							}
+							?>
+						</select>
+					</div>
+				</div>
+                
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tipo_pessoa">Tipo Pessoa: </label>
+					<div class="col-md-4">
+						<select class="input-style form-control"name="tipo_pessoa" id="tipo_pessoa">
+							<?php
+							mysql_select_db($database_cnnagenda2, $cnnagenda2);
+							$sql = "SELECT * FROM TIPO_PESSOA ORDER BY TIPO_PESSOA ASC";
+							$qr = mysql_query($sql) or die(mysql_error());
+
+							while ($row = mysql_fetch_assoc($qr)) {
+								echo "<option value='" . $row['ID_TIPO_PESSOA'] . "'>" . $row['TIPO_PESSOA'] . "</option>";
+							}
+							?>
+						</select>
+					</div>
+				</div>
+                
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="nome_contato">Nome Contato/Empresa: </label>
+					<div class="col-md-4">
+						<input class="form-control" name="nome_contato" id="nome_contato" required autofocus type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="nome_fantasia">Nome Fantasia:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control" name="nome_fantasia" id="nome_fantasia" required autofocus type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="contato">Contato:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control" name="contato" id="contato" required autofocus type="text">
+					</div>
+				</div>
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="cpf_cnpj">
+					<label for="cpf">CPF:&nbsp;<input type="radio" name="tipo" value="cpf" id="cpf"></label>					
+					<label for="cnpj">CNPJ:&nbsp;<input type="radio" name="tipo" value="cnpj" id="cnpj"></label>					
+					</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"type="text" name="cpf" id="cpf_cnpj" maxlength="18"/>
+					</div>					
+				</div>				
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="ie">Inscrição Estadual:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="ie" id="ie" required autofocus type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="dt_nascimento">Data Nascimento:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="dt_nascimento" id="dt_nascimento" required autofocus type="text" maxlength="10" onKeyPress="formatar_mascara(this,'xx/xx/xxxx')">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tel_fixo">Telefone Fixo:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tel_fixo" id="tel_fixo" required type="text" onkeypress="mascara2(this, '## ####-####')" maxlength="12">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tel_celular">Telefone Celular:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tel_celular" id="tel_celular" required type="text" onkeypress="mascara2(this, '## ####-####')" maxlength="12">
+					</div>
+				</div>
+                
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tel_fax">Telefone Fax:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tel_fax" id="tel_fax" required type="text" onkeypress="mascara2(this, '####-####')" maxlength="9">
+					</div>
+				</div>
+                
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="email">Email:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="email" id="email" required autofocus type="text">
+					</div>
+				</div>
+                
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="cep">CEP:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="cep" id="cep" required type="text" maxlength="9">
+					</div>
+				</div>
+				
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="endereco">Rua:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="endereco" id="endereco" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="numero">Número:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="numero" id="numero" required type="text">
+					</div>
+				</div>
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="complemento">Complemento:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="complemento" id="complemento" type="text">
+					</div>
+				</div>
+				
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="bairro">Bairro:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="bairro" id="bairro" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="cidade">Cidade:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="cidade" id="cidade" required type="text">
+					</div>
+				</div>
+
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="estado">Estado:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="estado" id="estado" required type="text">
+					</div>
+				</div>
+				
+                <div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="nome_banco">Banco:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="nome_banco" id="nome_banco" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="agencia">Agência:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="agencia" id="agencia" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="numero_conta">Número Conta:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="numero_conta" id="numero_conta" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="tipo_conta">Tipo de Conta:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="tipo_conta" id="tipo_conta" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="observacoes">Observações:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="observacoes" id="observacoes" required type="text">
+					</div>
+				</div>
+				
+				<div class="form-group input-group-sm">
+					<label class="control-label col-md-3" for="ativo">Ativo:</label>
+					<div class="col-md-4">
+						<input class="input-style form-control"name="ativo" id="ativo" required type="checkbox">
+					</div>
+				</div>
+                
+                <div class="form-group">
+                    <label class="control-label col-md-3"></label>
+                    <div class="col-md-5">
+                        <button type="submit" class="btn btn-success">Salvar Contato</button>
+				        <button type="reset" class="btn btn-warning">Limpar Campos</button>
+				        <a href="home.htm"><button type="button" class="btn btn-danger">Cancelar</button></a>
+                    </div>
+                </div>
+            </form>
+
+<?php include("footer.php");?>
