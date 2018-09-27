@@ -103,7 +103,7 @@ $contatos = listaContatos($conexao);
 				<td colspan="2">
 	  				<div class="form-group">
 	  					<label for="empresa">Empresa:</label>
-	  					<input type="text" class="form-control" id="empresa" name="empresa" value="Sphera Internacional Ltda" readOnly/>
+	  					<input type="text" class="form-control" id="empresa" name="empresa" value="Empresa1" readOnly/>
 	  				</div>
 	  			</td>
 			</tr>	
